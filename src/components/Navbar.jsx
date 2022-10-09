@@ -6,9 +6,12 @@ import {
   Badge,
   Box,
   InputBase,
+  Menu,
+  MenuItem,
   Toolbar,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 
 const StyledToolbar = styled(Toolbar)({
   display: 'flex',
@@ -41,6 +44,15 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="sticky">
       <StyledToolbar>
@@ -58,8 +70,13 @@ const Navbar = () => {
           <Badge badgeContent={2} color="error">
             <Notifications />
           </Badge>
+          <Avatar
+            alt="Remy Sharp"
+            src="https://mui.com/static/images/avatar/2.jpg"
+            onClick={handleClick}
+          />
         </Icons>
-        <UserBox>
+        <UserBox onClick={handleClick}>
           <Avatar
             alt="Remy Sharp"
             src="https://mui.com/static/images/avatar/2.jpg"
@@ -67,6 +84,25 @@ const Navbar = () => {
           <Typography>John Doe</Typography>
         </UserBox>
       </StyledToolbar>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>My account</MenuItem>
+        <MenuItem>Logout</MenuItem>
+      </Menu>
     </AppBar>
   );
 };
